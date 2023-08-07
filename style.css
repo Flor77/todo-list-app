@@ -18,11 +18,10 @@ body {
   );
   background: radial-gradient(
     ellipse at center,
-    rgb(49, 188, 188) 0%,
-    rgb(32, 70, 151) 100%
+    rgba(48, 64, 64, 1) 0%,
+    rgba(0, 0, 0, 1) 100%
   );
-  font-family: "Poppins", sans-serif;
-  /* font-family: "Shadows Into Light", cursive; */
+  font-family: "Shadows Into Light", cursive;
   min-height: 100vh;
 }
 
@@ -81,7 +80,7 @@ button {
 }
 
 .to-do-list .fa-pen-to-square {
-  color: #5b7065;
+  color: #c9d1c8;
 }
 
 .to-do-list button {

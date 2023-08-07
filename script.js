@@ -28,8 +28,10 @@ function displayItems() {
                 <div class="input-controller">
                   <textarea disabled>${itemsArray[i]}</textarea>
                   <div class="edit-controller">
-                    <i class="fa-solid fa-check deleteBtn"></i>
+                    
                     <i class="fa-solid fa-pen-to-square editBtn"></i>
+                    <i class="fa-solid fa-check completeBtn"></i>
+                    <i class="fa-solid fa-trash deleteBtn"></i>
                   </div>
                 </div>
                 <div class="update-controller">
@@ -43,6 +45,16 @@ function displayItems() {
   activateEditListeners();
   activateSaveListeners();
   activateCancelListeners();
+  activateCompleteListeners();
+}
+
+function activateCompleteListeners() {
+  let completeBtn = document.querySelectorAll(".completeBtn");
+  completeBtn.forEach((dB, i) => {
+    dB.addEventListener("click", () => {
+      completeItem(i);
+    });
+  });
 }
 
 function activateDeleteListeners() {
@@ -90,9 +102,23 @@ function activateCancelListeners() {
 }
 
 function createItem(item) {
-  itemsArray.push(item.value);
+  itemsArray.unshift(item.value);
   localStorage.setItem("items", JSON.stringify(itemsArray));
   location.reload();
+}
+
+function completeItem(i) {
+  const inputs = document.querySelectorAll(".input-controller textarea");
+
+  if (inputs[i].style.textDecoration === "line-through") {
+    // Item is currently completed, so uncheck it
+    inputs[i].style.textDecoration = "none";
+  } else {
+    // Item is currently not completed, so mark it as complete
+    inputs[i].style.textDecoration = "line-through";
+  }
+
+  localStorage.setItem("items", JSON.stringify(itemsArray));
 }
 
 function deleteItem(i) {
