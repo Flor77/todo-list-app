@@ -133,6 +133,23 @@ textarea:focus {
   display: none;
 }
 
+.date-time-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
+}
+
+#date {
+  margin-right: 10px;
+}
+
+#time {
+  min-width: 85px;
+  font-size: 1.5rem;
+  color: #ccc;
+}
+
 @media (max-width: 768px) {
   .app {
     width: 95%;

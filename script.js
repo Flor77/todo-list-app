@@ -21,17 +21,31 @@ function displayDate() {
   document.querySelector("#date").innerHTML = date;
 }
 
+function displayTime() {
+  let time = new Date();
+  let h = time.getHours();
+  let m = time.getMinutes();
+  let s = time.getSeconds();
+
+  if (h < 10) h = "0" + h;
+  if (m < 10) m = "0" + m;
+  if (s < 10) s = "0" + s;
+
+  document.getElementById("time").innerHTML = h + ":" + m + ":" + s;
+}
+
 function displayItems() {
   let items = "";
   for (let i = 0; i < itemsArray.length; i++) {
+    const completed = itemsArray[i].completed ? "line-through" : "none";
     items += `<div class="item">
                 <div class="input-controller">
-                  <textarea disabled>${itemsArray[i]}</textarea>
+                <textarea disabled style="text-decoration: ${completed};">${itemsArray[i].text}</textarea>
                   <div class="edit-controller">
                     
-                    <i class="fa-solid fa-pen-to-square editBtn"></i>
-                    <i class="fa-solid fa-check completeBtn"></i>
-                    <i class="fa-solid fa-trash deleteBtn"></i>
+                    <i class="fa-solid fa-pen-to-square editBtn" style="color:#11A1CD"></i>
+                    <i class="fa-solid fa-check completeBtn" style="color:#1BDC10"></i>
+                    <i class="fa-solid fa-trash deleteBtn" style="color:#FC099F"></i>
                   </div>
                 </div>
                 <div class="update-controller">
@@ -102,23 +116,15 @@ function activateCancelListeners() {
 }
 
 function createItem(item) {
-  itemsArray.unshift(item.value);
+  itemsArray.unshift({ text: item.value, completed: false });
   localStorage.setItem("items", JSON.stringify(itemsArray));
-  location.reload();
+  displayItems();
 }
 
 function completeItem(i) {
-  const inputs = document.querySelectorAll(".input-controller textarea");
-
-  if (inputs[i].style.textDecoration === "line-through") {
-    // Item is currently completed, so uncheck it
-    inputs[i].style.textDecoration = "none";
-  } else {
-    // Item is currently not completed, so mark it as complete
-    inputs[i].style.textDecoration = "line-through";
-  }
-
+  itemsArray[i].completed = !itemsArray[i].completed;
   localStorage.setItem("items", JSON.stringify(itemsArray));
+  displayItems();
 }
 
 function deleteItem(i) {
@@ -136,4 +142,6 @@ function updateItem(text, i) {
 window.onload = function () {
   displayDate();
   displayItems();
+  displayTime();
+  setInterval(displayTime, 1000);
 };
