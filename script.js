@@ -26,7 +26,8 @@ function displayDate() {
   if (h < 10) h = "0" + h;
   if (m < 10) m = "0" + m;
   if (s < 10) s = "0" + s;
-  date = date[2] + " " + date[1] + " " + date[3] + " " + h + ":" + m + ":" + s;
+  date =
+    date[2] + " " + date[1] + " " + date[3] + " " + h + "::" + m + "::" + s;
   document.querySelector("#date").innerHTML = date;
 }
 
