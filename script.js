@@ -1,6 +1,8 @@
-const itemsArray = localStorage.getItem("items")
+let currentDate = "";
+
+const todosByDate = localStorage.getItem("items")
   ? JSON.parse(localStorage.getItem("items"))
-  : [];
+  : {};
 
 document.querySelector("#enter").addEventListener("click", () => {
   const item = document.querySelector("#item");
@@ -16,45 +18,46 @@ document.querySelector("#item").addEventListener("keypress", (e) => {
 
 function displayDate() {
   let date = new Date();
+  let h = date.getHours();
+  let m = date.getMinutes();
+  let s = date.getSeconds();
   date = date.toString().split(" ");
-  date = date[1] + " " + date[2] + " " + date[3];
-  document.querySelector("#date").innerHTML = date;
-}
-
-function displayTime() {
-  let time = new Date();
-  let h = time.getHours();
-  let m = time.getMinutes();
-  let s = time.getSeconds();
 
   if (h < 10) h = "0" + h;
   if (m < 10) m = "0" + m;
   if (s < 10) s = "0" + s;
-
-  document.getElementById("time").innerHTML = h + ":" + m + ":" + s;
+  date = date[2] + " " + date[1] + " " + date[3] + " " + h + ":" + m + ":" + s;
+  document.querySelector("#date").innerHTML = date;
 }
 
 function displayItems() {
-  let items = "";
-  for (let i = 0; i < itemsArray.length; i++) {
-    const completed = itemsArray[i].completed ? "line-through" : "none";
-    items += `<div class="item">
-                <div class="input-controller">
-                <textarea disabled style="text-decoration: ${completed};">${itemsArray[i].text}</textarea>
-                  <div class="edit-controller">
-                    
-                    <i class="fa-solid fa-pen-to-square editBtn" style="color:#11A1CD"></i>
-                    <i class="fa-solid fa-check completeBtn" style="color:#1BDC10"></i>
-                    <i class="fa-solid fa-trash deleteBtn" style="color:#FC099F"></i>
-                  </div>
-                </div>
-                <div class="update-controller">
-                  <button class="saveBtn">Save</button>
-                  <button class="cancelBtn">Cancel</button>
-                </div>
-              </div>`;
+  let itemsHTML = "";
+  for (const date in todosByDate) {
+    if (Array.isArray(todosByDate[date])) {
+      // Check if it's an array
+      currentDate = date; // Set the current date
+      itemsHTML += `${date}`;
+      todosByDate[date].forEach((todo) => {
+        const completed = todo.completed ? "line-through" : "none";
+        itemsHTML += `<div class="item">
+                      <div class="input-controller">
+                        <textarea disabled style="text-decoration: ${completed};">${todo.text}</textarea>
+                        <div class="edit-controller">
+                          <i class="fa-solid fa-pen-to-square editBtn" style="color:#11A1CD"></i>
+                          <i class="fa-solid fa-check completeBtn" style="color:#1BDC10"></i>
+                          <i class="fa-solid fa-trash deleteBtn" style="color:#FC099F"></i>
+                        </div>
+                      </div>
+                      <div class="update-controller">
+                        <button class="saveBtn">Save</button>
+                        <button class="cancelBtn">Cancel</button>
+                      </div>
+                    </div>`;
+      });
+    }
   }
-  document.querySelector(".to-do-list").innerHTML = items;
+
+  document.querySelector(".to-do-list").innerHTML = itemsHTML;
   activateDeleteListeners();
   activateEditListeners();
   activateSaveListeners();
@@ -66,7 +69,7 @@ function activateCompleteListeners() {
   let completeBtn = document.querySelectorAll(".completeBtn");
   completeBtn.forEach((dB, i) => {
     dB.addEventListener("click", () => {
-      completeItem(i);
+      completeItem(currentDate, i);
     });
   });
 }
@@ -75,7 +78,7 @@ function activateDeleteListeners() {
   let deleteBtn = document.querySelectorAll(".deleteBtn");
   deleteBtn.forEach((dB, i) => {
     dB.addEventListener("click", () => {
-      deleteItem(i);
+      deleteItem(currentDate, i);
     });
   });
 }
@@ -97,7 +100,7 @@ function activateSaveListeners() {
   const inputs = document.querySelectorAll(".input-controller textarea");
   saveBtn.forEach((sB, i) => {
     sB.addEventListener("click", () => {
-      updateItem(inputs[i].value, i);
+      updateItem(currentDate, inputs[i].value, i);
     });
   });
 }
@@ -116,32 +119,39 @@ function activateCancelListeners() {
 }
 
 function createItem(item) {
-  itemsArray.unshift({ text: item.value, completed: false });
-  localStorage.setItem("items", JSON.stringify(itemsArray));
+  const date = new Date().toISOString().split("T")[0];
+  if (!todosByDate[date]) {
+    todosByDate[date] = [];
+  }
+  todosByDate[date].push({ text: item.value, completed: false });
+  localStorage.setItem("items", JSON.stringify(todosByDate)); // Store the entire todosByDate object
+  displayItems();
+  item.value = "";
+}
+
+function completeItem(date, i) {
+  todosByDate[date][i].completed = !todosByDate[date][i].completed;
+  localStorage.setItem("items", JSON.stringify(todosByDate));
   displayItems();
 }
 
-function completeItem(i) {
-  itemsArray[i].completed = !itemsArray[i].completed;
-  localStorage.setItem("items", JSON.stringify(itemsArray));
+function deleteItem(date, i) {
+  todosByDate[date].splice(i, 1);
+  if (todosByDate[date].length === 0) {
+    delete todosByDate[date];
+  }
+  localStorage.setItem("items", JSON.stringify(todosByDate));
   displayItems();
 }
 
-function deleteItem(i) {
-  itemsArray.splice(i, 1);
-  localStorage.setItem("items", JSON.stringify(itemsArray));
-  location.reload();
-}
-
-function updateItem(text, i) {
-  itemsArray[i] = text;
-  localStorage.setItem("items", JSON.stringify(itemsArray));
-  location.reload();
+function updateItem(date, text, i) {
+  todosByDate[date][i].text = text;
+  localStorage.setItem("items", JSON.stringify(todosByDate));
+  displayItems();
 }
 
 window.onload = function () {
   displayDate();
   displayItems();
-  displayTime();
-  setInterval(displayTime, 1000);
+  setInterval(displayDate, 1000);
 };

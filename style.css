@@ -21,7 +21,9 @@ body {
     rgba(48, 64, 64, 1) 0%,
     rgba(0, 0, 0, 1) 100%
   );
-  font-family: "Shadows Into Light", cursive;
+  /* font-family: "Shadows Into Light", cursive; */
+  /* font-family: "Poppins", sans-serif; */
+  font-family: "Varela", sans-serif;
   min-height: 100vh;
 }
 
@@ -33,7 +35,7 @@ button {
 }
 
 .app {
-  width: 600px;
+  max-width: 600px;
   margin: auto;
   padding-top: 50px;
   color: white;
@@ -137,22 +139,12 @@ textarea:focus {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
-  font-size: 1.5rem;
-}
-
-#date {
-  margin-right: 10px;
-}
-
-#time {
-  min-width: 85px;
-  font-size: 1.5rem;
-  color: #ccc;
+  font-size: 1.3rem;
 }
 
 @media (max-width: 768px) {
   .app {
-    width: 95%;
+    width: 80%;
     text-align: center;
   }
 
@@ -165,7 +157,7 @@ textarea:focus {
     display: flex;
   }
 
-  .to-do-input input {
+  /* .to-do-input input {
     width: 300px;
-  }
+  } */
 }
