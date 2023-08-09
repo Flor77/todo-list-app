@@ -36,8 +36,8 @@ function displayItems() {
     if (Array.isArray(todosByDate[date])) {
       // Check if it's an array
       currentDate = date; // Set the current date
-      itemsHTML += `${date}`;
-      todosByDate[date].forEach((todo) => {
+      itemsHTML += `<div class="group-header">${date}</div>`; // Add a group header
+      todosByDate[date].forEach((todo, i) => {
         const completed = todo.completed ? "line-through" : "none";
         itemsHTML += `<div class="item">
                       <div class="input-controller">
@@ -82,7 +82,6 @@ function activateDeleteListeners() {
     });
   });
 }
-
 function activateEditListeners() {
   const editBtn = document.querySelectorAll(".editBtn");
   const updateController = document.querySelectorAll(".update-controller");
@@ -130,18 +129,22 @@ function createItem(item) {
 }
 
 function completeItem(date, i) {
-  todosByDate[date][i].completed = !todosByDate[date][i].completed;
-  localStorage.setItem("items", JSON.stringify(todosByDate));
-  displayItems();
+  if (todosByDate[date] && todosByDate[date][i]) {
+    todosByDate[date][i].completed = !todosByDate[date][i].completed;
+    localStorage.setItem("items", JSON.stringify(todosByDate));
+    displayItems();
+  }
 }
 
 function deleteItem(date, i) {
-  todosByDate[date].splice(i, 1);
-  if (todosByDate[date].length === 0) {
-    delete todosByDate[date];
+  if (todosByDate[date] && todosByDate[date][i]) {
+    todosByDate[date].splice(i, 1);
+    if (todosByDate[date].length === 0) {
+      delete todosByDate[date];
+    }
+    localStorage.setItem("items", JSON.stringify(todosByDate));
+    displayItems();
   }
-  localStorage.setItem("items", JSON.stringify(todosByDate));
-  displayItems();
 }
 
 function updateItem(date, text, i) {
