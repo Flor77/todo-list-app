@@ -154,6 +154,13 @@ function updateItem(date, text, i) {
 }
 
 window.onload = function () {
+  const currentDate = new Date().toISOString().split("T")[0];
+  const storedDate = localStorage.getItem("currentDate");
+
+  if (storedDate !== currentDate) {
+    localStorage.setItem("currentDate", currentDate);
+  }
+
   displayDate();
   displayItems();
   setInterval(displayDate, 1000);
