@@ -1,4 +1,9 @@
 let currentDate = "";
+let todoCounter = 1;
+const storedCounter = localStorage.getItem("todoCounter");
+if (storedCounter !== null) {
+  todoCounter = parseInt(storedCounter);
+}
 
 const todosByDate = localStorage.getItem("items")
   ? JSON.parse(localStorage.getItem("items"))
@@ -41,6 +46,7 @@ function displayItems() {
         const completed = todo.completed ? "line-through" : "none";
         itemsHTML += `<div class="item">
                       <div class="input-controller">
+                      <span class="order">${todo.order}</span>
                         <textarea disabled style="text-decoration: ${completed};">${todo.text}</textarea>
                         <div class="edit-controller">
                           <i class="fa-solid fa-pen-to-square editBtn" style="color:#11A1CD"></i>
@@ -121,9 +127,19 @@ function createItem(item) {
   const date = new Date().toISOString().split("T")[0];
   if (!todosByDate[date]) {
     todosByDate[date] = [];
+    todoCounter = 1;
   }
-  todosByDate[date].push({ text: item.value, completed: false });
-  localStorage.setItem("items", JSON.stringify(todosByDate)); // Store the entire todosByDate object
+
+  const taskId = Date.now().toString();
+
+  todosByDate[date].push({
+    id: taskId,
+    text: item.value,
+    completed: false,
+    order: todoCounter++,
+  });
+  localStorage.setItem("items", JSON.stringify(todosByDate));
+  localStorage.setItem("todoCounter", todoCounter.toString()); // Store the entire todosByDate object
   displayItems();
   item.value = "";
 }

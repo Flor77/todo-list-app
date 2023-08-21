@@ -142,6 +142,12 @@ textarea:focus {
   font-size: 1.3rem;
 }
 
+.order {
+  font-size: 1.2rem;
+  line-height: 1.4;
+  font-family: inherit;
+}
+
 @media (max-width: 768px) {
   .app {
     width: 80%;
