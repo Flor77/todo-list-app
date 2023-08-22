@@ -1,4 +1,4 @@
-let currentDate = "";
+// let currentDate = "";
 let todoCounter = 1;
 const storedCounter = localStorage.getItem("todoCounter");
 if (storedCounter !== null) {
@@ -44,7 +44,7 @@ function displayItems() {
       itemsHTML += `<div class="group-header">${date}</div>`; // Add a group header
       todosByDate[date].forEach((todo, i) => {
         const completed = todo.completed ? "line-through" : "none";
-        itemsHTML += `<div class="item">
+        itemsHTML += `<div class="item" data-date="${date}">
                       <div class="input-controller">
                       <span class="order">${todo.order}</span>
                         <textarea disabled style="text-decoration: ${completed};">${todo.text}</textarea>
@@ -75,7 +75,10 @@ function activateCompleteListeners() {
   let completeBtn = document.querySelectorAll(".completeBtn");
   completeBtn.forEach((dB, i) => {
     dB.addEventListener("click", () => {
-      completeItem(currentDate, i);
+      // Find the parent item element and get its date attribute
+      const itemElement = dB.closest(".item");
+      const date = itemElement.getAttribute("data-date");
+      completeItem(date, i);
     });
   });
 }
@@ -84,10 +87,14 @@ function activateDeleteListeners() {
   let deleteBtn = document.querySelectorAll(".deleteBtn");
   deleteBtn.forEach((dB, i) => {
     dB.addEventListener("click", () => {
-      deleteItem(currentDate, i);
+      // Find the parent item element and get its date attribute
+      const itemElement = dB.closest(".item");
+      const date = itemElement.getAttribute("data-date");
+      deleteItem(date, i);
     });
   });
 }
+
 function activateEditListeners() {
   const editBtn = document.querySelectorAll(".editBtn");
   const updateController = document.querySelectorAll(".update-controller");
@@ -138,6 +145,12 @@ function createItem(item) {
     completed: false,
     order: todoCounter++,
   });
+
+  // Set the data-date attribute to the current date
+  const itemElement = document.createElement("div");
+  itemElement.classList.add("item");
+  itemElement.setAttribute("data-date", date);
+
   localStorage.setItem("items", JSON.stringify(todosByDate));
   localStorage.setItem("todoCounter", todoCounter.toString()); // Store the entire todosByDate object
   displayItems();
