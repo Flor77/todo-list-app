@@ -1,6 +1,7 @@
 * {
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 /* #5b7065, black */
@@ -21,9 +22,7 @@ body {
     rgba(48, 64, 64, 1) 0%,
     rgba(0, 0, 0, 1) 100%
   );
-  /* font-family: "Shadows Into Light", cursive; */
-  /* font-family: "Poppins", sans-serif; */
-  font-family: "Varela", sans-serif;
+  font-family: "Inter", sans-serif;
   min-height: 100vh;
 }
 
@@ -31,11 +30,11 @@ button {
   height: fit-content;
   cursor: pointer;
   color: #04202c;
-  background-color: #bace48;
+  background-color: #c9d1c8;
 }
 
 .app {
-  max-width: 600px;
+  max-width: 500px;
   margin: auto;
   padding-top: 50px;
   color: white;
@@ -49,15 +48,21 @@ button {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   padding: 0px 0px 10px 0px;
+  gap: 1rem;
+}
+
+.to-do-input {
+  display: flex;
 }
 
 .to-do-input input {
-  width: 250px;
+  min-width: 240px;
+  max-width: 300px;
   font-family: inherit;
   border: none;
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
-  padding: 10px;
+  padding: 0.5rem;
   outline: none;
 }
 
@@ -65,7 +70,7 @@ button {
   color: #5b7065;
   font-family: inherit;
   border: none;
-  padding: 10px;
+  padding: 0.5rem;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -82,11 +87,11 @@ button {
 }
 
 .to-do-list .fa-pen-to-square {
-  color: #c9d1c8;
+  color: #5b7065;
 }
 
 .to-do-list button {
-  padding: 8px;
+  padding: 0.5rem;
   border-radius: 10px;
   cursor: pointer;
   font-family: inherit;
@@ -99,13 +104,25 @@ button {
   gap: 10px;
   background-color: rgba(0, 0, 0, 0.3);
   border-radius: 10px;
-  padding: 8px;
+  padding: 0.5rem;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
 }
 
 .input-controller {
   display: flex;
   gap: 10px;
+}
+.input-controller .todo-number {
+  outline: none;
+  border: none;
+  resize: none;
+  line-height: 1.4;
+  color: white;
+  border-radius: 10px;
+  background-color: transparent;
+  font-size: 1.2rem;
+  font-family: inherit;
+  transition: all 0.3s ease-in-out;
 }
 
 .input-controller textarea {
@@ -135,22 +152,9 @@ textarea:focus {
   display: none;
 }
 
-.date-time-container {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  font-size: 1.3rem;
-}
-
-.order {
-  font-size: 1.2rem;
-  line-height: 1.4;
-  font-family: inherit;
-}
-
 @media (max-width: 768px) {
   .app {
-    width: 80%;
+    width: 95%;
     text-align: center;
   }
 
@@ -163,7 +167,7 @@ textarea:focus {
     display: flex;
   }
 
-  /* .to-do-input input {
+  .to-do-input input {
     width: 300px;
-  } */
+  }
 }
