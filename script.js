@@ -14,6 +14,14 @@ function createTodo(item) {
   location.reload();
 }
 
+const inputField = document.querySelector("#item");
+
+inputField.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    createTodo(inputField);
+  }
+});
+
 function displayTodos() {
   todo = "";
   for (let i = 0; i < todosArray.length; i++) {
