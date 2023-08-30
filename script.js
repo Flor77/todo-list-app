@@ -1,7 +1,6 @@
 let todosArray = localStorage.getItem("todos")
   ? JSON.parse(localStorage.getItem("todos"))
   : [];
-console.log(todosArray);
 
 document.querySelector("#enter").addEventListener("click", () => {
   const item = document.querySelector("#item");
@@ -9,7 +8,7 @@ document.querySelector("#enter").addEventListener("click", () => {
 });
 
 function createTodo(item) {
-  todosArray.push(item.value);
+  todosArray.push({ text: item.value, completed: false });
   localStorage.setItem("todos", JSON.stringify(todosArray));
   location.reload();
 }
@@ -23,13 +22,14 @@ inputField.addEventListener("keydown", (event) => {
 });
 
 function displayTodos() {
-  todo = "";
+  let todo = "";
   for (let i = 0; i < todosArray.length; i++) {
     const todoNumber = i + 1;
+    const completed = todosArray[i].completed ? "line-through" : "none";
     todo += ` <div class="item">
     <div class="input-controller">
     <span class="todo-number">${todoNumber}.</span>
-      <textarea disabled>${todosArray[i]}</textarea>
+      <textarea disabled style="text-decoration: ${completed}">${todosArray[i].text}</textarea>
       <div class="edit-controller">
         <button class="completeBtn">Done</button>
         <button class="editBtn">Edit</button>
@@ -55,11 +55,9 @@ function activateCompleteListeners() {
   const inputs = document.querySelectorAll(".input-controller textarea");
   completeBtn.forEach((cb, i) => {
     cb.addEventListener("click", () => {
-      if (inputs[i].style.textDecoration === "line-through") {
-        inputs[i].style.textDecoration = "none";
-      } else {
-        inputs[i].style.textDecoration = "line-through";
-      }
+      todosArray[i].completed = !todosArray[i].completed;
+      localStorage.setItem("todos", JSON.stringify(todosArray));
+      location.reload();
     });
   });
 }
@@ -101,7 +99,7 @@ function activateSaveListeners() {
 }
 
 function updateTodo(text, i) {
-  todosArray[i] = text;
+  todosArray[i].text = text;
   localStorage.setItem("todos", JSON.stringify(todosArray));
   location.reload();
 }
