@@ -52,7 +52,6 @@ function displayTodos() {
 
 function activateCompleteListeners() {
   const completeBtn = document.querySelectorAll(".completeBtn");
-  const inputs = document.querySelectorAll(".input-controller textarea");
   completeBtn.forEach((cb, i) => {
     cb.addEventListener("click", () => {
       todosArray[i].completed = !todosArray[i].completed;
@@ -110,7 +109,7 @@ function activateCancelListeners() {
   const updateController = document.querySelectorAll(".update-controller");
   cancelBtn.forEach((eb, i) => {
     eb.addEventListener("click", () => {
-      inputs[i].value = todosArray[i];
+      inputs[i].value = todosArray[i].text;
       inputs[i].disabled = true;
       updateController[i].style.display = "none";
     });
