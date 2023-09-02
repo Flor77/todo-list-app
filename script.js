@@ -120,7 +120,7 @@ function displayTime() {
   let date = new Date();
   date = date.toString().split(" ");
   document.querySelector("#date").innerHTML =
-    date[1] + " " + date[2] + " " + date[3] + " " + date[4] + " ";
+    date[2] + " " + date[1] + " " + date[3] + " " + date[4] + " ";
 }
 
 window.onload = function () {
