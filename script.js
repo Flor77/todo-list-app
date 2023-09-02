@@ -31,9 +31,10 @@ function displayTodos() {
     <span class="todo-number">${todoNumber}.</span>
       <textarea disabled style="text-decoration: ${completed}">${todosArray[i].text}</textarea>
       <div class="edit-controller">
-        <button class="completeBtn">Done</button>
-        <button class="editBtn">Edit</button>
-        <button class="deleteBtn">Delete</button>
+      <i class="fa-solid fa-check completeBtn"></i>
+      <i class="fa-solid fa-pen-to-square editBtn"></i>
+      <i class="fa-solid fa-trash deleteBtn"></i>
+        
       </div>
     </div>
     <div class="update-controller">
@@ -48,6 +49,12 @@ function displayTodos() {
   activateDeleteListeners();
   activateSaveListeners();
   activateCancelListeners();
+}
+
+{
+  /* <button class="completeBtn">Done</button>
+        <button class="editBtn">Edit</button>
+        <button class="deleteBtn">Delete</button> */
 }
 
 function activateCompleteListeners() {

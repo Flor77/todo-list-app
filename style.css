@@ -40,15 +40,22 @@ button {
   color: white;
 }
 
+body main h3 {
+  padding: 0.5rem;
+  color: #dbdfdd;
+}
+
 .input-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: white;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-  padding: 0px 0px 10px 0px;
+  padding: 0.5rem;
   gap: 1rem;
+}
+
+.input-header #date {
+  color: #dbdfdd;
 }
 
 .to-do-input {
@@ -82,17 +89,26 @@ button {
 }
 
 .to-do-list i {
-  color: #c9d1c8;
+  font-size: 1rem;
   cursor: pointer;
+  margin-left: 0.2rem;
 }
 
 .to-do-list .fa-pen-to-square {
-  color: #5b7065;
+  color: #9aa2f6;
+}
+
+.to-do-list .fa-check {
+  color: #72ca9c;
+}
+
+.to-do-list .fa-trash {
+  color: #853d29;
 }
 
 .to-do-list button {
-  padding: 0.4rem;
-  border-radius: 10px;
+  padding: 0.3rem;
+  border-radius: 0.5rem;
   cursor: pointer;
   font-family: inherit;
   border: none;
